@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <title>Skole</title>
 </head>
+
 <body>
     {{#if Admin}}
     {{>AdminHeader}}
@@ -14,43 +16,61 @@
     {{>Header}}
     {{/if}}
     <div class="gridlayout">
-    <table class="GM2">
-        <tr>
-            <td>Rolle: </td>
-            <td>{{userdata.rolle}}</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Navn: </td>
-            <td>{{userdata.Etternavn}}, {{userdata.Fornavn}}</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Epost: </td>
-            <td>{{userdata.Epost}}</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>tlf: </td>
-            <td>{{userdata.tlf}}</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Personnumer: </td>
-            <td>{{userdata.Personnummer}}</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Klasse: </td>
-            <td>{{klasseData.navn}}</td>
-            <td></td>
-        </tr>
-        <tr>
+        <table class="GM2">
+            <tr>
+                <td>Rolle: </td>
+                <td>{{userdata.rolle}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Navn: </td>
+                <td>{{userdata.Etternavn}}, {{userdata.Fornavn}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Epost: </td>
+                <td>{{userdata.Epost}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>tlf: </td>
+                <td>{{userdata.tlf}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Adresse: </td>
+                <td>{{userdata.Adresse}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Personnumer: </td>
+                <td>{{userdata.Personnummer}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Klasse: </td>
+                <td>{{klasseData.navn}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Kontakt-lærer: </td>
+                <td>{{klasseData.kontaktlærer}}</td>
+                <td></td>
+            </tr>
             <td>Passord: </td>
             <td>Passordet er skjult for sikkerhet</td>
             <td><a href="/changePwd"><button>Endre</button></a></td>
-        </tr>
-    </table>
+            </tr>
+        </table>
+        <table>
+            {{#each personeriklasse}}
+            {{this.Fornavn}}<br>
+            {{this.Etternavn}}<br>
+            {{this.Epost}}<br>
+            {{this.Adresse}}<br>
+            {{/each}}
+        </table>
     </div>
 </body>
+
 </html>

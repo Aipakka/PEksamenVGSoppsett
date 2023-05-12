@@ -56,12 +56,51 @@ app.post("/LoggIn", async (req, res) => {
 });
 app.get("/Profil", (req, res)=>{
     if(req.session.loggedin){
+        console.log(req.session.loggedin)
+        
+        if(req.session.userData.fornavn == "Mari"){
+            let klassepersoner = "";
+            klassepersoner = db.prepare("SELECT * FROM Person WHERE Person.Klasse_id = 1")
+            console.log(klassepersoner)
+
+            res.render("Profil.hbs", {
+                userdata: req.session.userData,
+                klasseData: req.session.klasseData,
+                Admin: req.session.admin,
+                personeriklasse: klassepersoner
+            })
+        }
+        else if(req.session.userData.fornavn == "Jens" && req.session.userData.rolle == "Lærer"){
+            let klassepersoner = "";
+            klassepersoner = db.prepare("SELECT * FROM Person WHERE Person.Klasse_id=2")
+            console.log(klassepersoner)
+
+            res.render("Profil.hbs", {
+                userdata: req.session.userData,
+                klasseData: req.session.klasseData,
+                Admin: req.session.admin,
+                personeriklasse: klassepersoner
+            })
+        }
+        else if(req.session.userData.fornavn == "Dave"){
+            let klassepersoner = "";
+            klassepersoner = db.prepare("SELECT * FROM Person WHERE Klasse_id=3").get(userData.Klasse_id)
+            console.log(klassepersoner)
+            res.render("Profil.hbs", {
+                userdata: req.session.userData,
+                klasseData: req.session.klasseData,
+                Admin: req.session.admin,
+                personeriklasse: klassepersoner
+            })
+        }else{
+        
 
         res.render("Profil.hbs", {
             userdata: req.session.userData,
             klasseData: req.session.klasseData,
             Admin: req.session.admin
         })
+    }
     }else{
         res.redirect("/index.html");
     }
@@ -82,15 +121,17 @@ app.post("/CreateUser", async (req,res)=>{
     if(svar.rolle == "Elev"){
         if(svar.klasse!="Ingen"){
             let hash = await bcrypt.hash(svar.password, 10)
-            db.prepare(`INSERT INTO Person (rolle,Fornavn,Etternavn,Epost,tlf,Personnummer,Klasse_id,PassordHash) 
-            VALUES (?,?,?,?,?,?,?,?);`).run(svar.rolle, svar.fornavn, svar.etternavn, svar.epost, svar.tlf, svar.personnummer, svar.klasse, hash)
+            let generatedusername = svar.fornavn.substring(0, 3) + svar.etternavn.substring(0, 3) + svar.tlf.toString().substr(0, 3);
+            db.prepare(`INSERT INTO Person (rolle,Fornavn,Etternavn,Epost,tlf,Personnummer,Klasse_id,PassordHash, Adresse, Brukernavn) 
+            VALUES (?,?,?,?,?,?,?,?,?,?);`).run(svar.rolle, svar.fornavn, svar.etternavn, svar.epost, svar.tlf, svar.personnummer, svar.klasse, hash, svar.Adresse, generatedusername)
         }else{
             res.send('<script>alert("Elever må være i en klasse"); location.href = "/CreateUserForm"; </script>');
         }
     }else{
         let hash = await bcrypt.hash(svar.password, 10)
-        db.prepare(`INSERT INTO Person (rolle,Fornavn,Etternavn,Epost,tlf,Personnummer,PassordHash) 
-        VALUES (?,?,?,?,?,?,?);`).run(svar.rolle, svar.fornavn, svar.etternavn, svar.epost, svar.tlf, svar.personnummer, hash)
+        let generatedusername = svar.fornavn.substring(0, 3) + svar.etternavn.substring(0, 3) + svar.tlf.toString().substr(0, 3);
+        db.prepare(`INSERT INTO Person (rolle,Fornavn,Etternavn,Epost,tlf,Personnummer,PassordHash, Adresse, Brukernavn) 
+        VALUES (?,?,?,?,?,?,?,?,?);`).run(svar.rolle, svar.fornavn, svar.etternavn, svar.epost, svar.tlf, svar.personnummer, hash, svar.Adresse, generatedusername)
     }
 
     res.send('<script>alert("Bruker lagt til"); location.href = "/CreateUserForm"; </script>');
