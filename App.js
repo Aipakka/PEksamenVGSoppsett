@@ -25,10 +25,10 @@ app.use(session({
     saveUninitialized: false 
 }));
 
-
 app.get("/", (req, res)=> {
     res.redirect("/index.html");
 });
+
 app.post("/LoggIn", async (req, res) => {
     let svar = req.body;
     let data = db.prepare("SELECT * FROM Person WHERE Person.Epost = ?").get(svar.Epost);
