@@ -56,44 +56,7 @@ app.post("/LoggIn", async (req, res) => {
 });
 app.get("/Profil", (req, res)=>{
     if(req.session.loggedin){
-        console.log(req.session.loggedin)
-        
-        if(req.session.userData.fornavn == "Mari"){
-            let klassepersoner = "";
-            klassepersoner = db.prepare("SELECT * FROM Person WHERE Person.Klasse_id = 1")
-            console.log(klassepersoner)
-
-            res.render("Profil.hbs", {
-                userdata: req.session.userData,
-                klasseData: req.session.klasseData,
-                Admin: req.session.admin,
-                personeriklasse: klassepersoner
-            })
-        }
-        else if(req.session.userData.fornavn == "Jens" && req.session.userData.rolle == "Lærer"){
-            let klassepersoner = "";
-            klassepersoner = db.prepare("SELECT * FROM Person WHERE Person.Klasse_id=2")
-            console.log(klassepersoner)
-
-            res.render("Profil.hbs", {
-                userdata: req.session.userData,
-                klasseData: req.session.klasseData,
-                Admin: req.session.admin,
-                personeriklasse: klassepersoner
-            })
-        }
-        else if(req.session.userData.fornavn == "Dave"){
-            let klassepersoner = "";
-            klassepersoner = db.prepare("SELECT * FROM Person WHERE Klasse_id=3").get(userData.Klasse_id)
-            console.log(klassepersoner)
-            res.render("Profil.hbs", {
-                userdata: req.session.userData,
-                klasseData: req.session.klasseData,
-                Admin: req.session.admin,
-                personeriklasse: klassepersoner
-            })
-        }else{
-        
+      
 
         res.render("Profil.hbs", {
             userdata: req.session.userData,
@@ -101,10 +64,11 @@ app.get("/Profil", (req, res)=>{
             Admin: req.session.admin
         })
     }
-    }else{
+    else{
         res.redirect("/index.html");
     }
-});
+}
+);
 app.get("/CreateUserForm", (req, res)=>{
     if(req.session.loggedin && req.session.admin){
         klasser= db.prepare("SELECT * FROM Klasse").all();
