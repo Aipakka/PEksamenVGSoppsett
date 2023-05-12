@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Lag bruker</title>
+</head>
+<body>
+       {{#if Admin}}
+    {{>AdminHeader}}
+    {{else}}
+    {{>Header}}
+    {{/if}}
+
+
+    <form action="/CreateUser" class="loggInForm" method="post">
+        <h3 class="loggInForm-tittle">Lag bruker</h3><br>
+        <div class="loggInForm-input-container">
+            <label class="loggInForm-label" for="rolle">Rolle</label><br>
+            <select name="rolle" required id="rolle">
+                <option value="Elev">Elev</option>
+                <option value="Annsat">Annsat</option>
+                <option value="Admin">Admin</option>
+            </select>
+            <br>
+            <label class="loggInForm-label" for="fornavn">Fornavn</label><br>
+            <input type="text" name="fornavn" required  placeholder="Fornavn"><br>
+            <br>
+            <label class="loggInForm-label" for="etternavn">Etternavn</label><br>
+            <input type="text" name="etternavn" required  placeholder="Etternavn"><br>
+            <br>
+            <label class="loggInForm-label" for="epost">Epost</label><br>
+            <input type="email" name="epost" required  placeholder="Epost"><br>
+            <br>
+            <label class="loggInForm-label" for="tlf">tlf</label><br>
+            <input type="text" name="tlf" required  placeholder="tlf"><br>
+            <br>
+            <label class="loggInForm-label" for="personnummer">Personnummer</label><br>
+            <input type="text" name="personnummer" required  placeholder="Personnummer"><br>
+            <br>
+            <label class="loggInForm-label" for="klasse">Klasse(dersom det er en elev)</label><br>
+            <select name="klasse" id="klasse">
+                <option value="Ingen">Ingen</option>
+                {{#each klasser}}
+                    <option value="{{this.id}}">{{this.navn}}</option>
+                {{/each}}
+            </select>
+            <br>
+            <label class="loggInForm-label" for="password">Passord</label><br>
+            <input type="password" name="password" required  placeholder="Passord"><br>
+            <br>
+            <input type="submit" value="Submit">
+        </div>
+    </form>
+    
+</body>
+</html>
